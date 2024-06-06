@@ -1,0 +1,36 @@
+version: '3.9'
+
+services:
+    iden-database-service:
+        build:
+            context: ..
+            dockerfile: docker/Dockerfile.dev
+        command: uvicorn app.main:app --reload --workers 1 --host 0.0.0.0 --port 8010
+        volumes:
+            - ../:/usr/src/app/
+        ports:
+            - "8002:8010"
+        env_file:
+            - ../.env
+        networks:
+            - iden
+        depends_on:
+            - iden-postgres-db
+            
+    iden-postgres-db:
+        build:
+            context: ../config_db
+            dockerfile: Dockerfile
+        volumes:
+            - ../db/postgres-data-iden:/var/lib/postgresql/data-iden
+        ports:
+            - "5432:5432"
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+        networks:
+            - iden
+
+networks:
+    iden:
+        external: True

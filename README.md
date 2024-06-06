@@ -1,1 +1,2 @@
-# SIGA-VOTACIONES
+# IDENTIGEN
+Sistema de registro de usuarios
