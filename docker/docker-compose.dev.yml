@@ -1,7 +1,7 @@
 version: '3.9'
 
 services:
-    iden-database-service:
+    vote_backend:
         build:
             context: ..
             dockerfile: docker/Dockerfile.dev
@@ -13,24 +13,23 @@ services:
         env_file:
             - ../.env
         networks:
-            - iden
+            - vote
         depends_on:
-            - iden-postgres-db
+            - vote_postgres_db
             
-    iden-postgres-db:
+    vote_postgres_db:
         build:
             context: ../config_db
             dockerfile: Dockerfile
         volumes:
-            - ../db/postgres-data-iden:/var/lib/postgresql/data-iden
+            - ../db/postgres-data-vote:/var/lib/postgresql/data-vote
         ports:
-            - "5432:5432"
-        environment:
-            - POSTGRES_USER=postgres
-            - POSTGRES_PASSWORD=postgres
+            - "5433:5432"
+        env_file:
+            - ../.env
         networks:
-            - iden
+            - vote
 
 networks:
-    iden:
+    vote:
         external: True
