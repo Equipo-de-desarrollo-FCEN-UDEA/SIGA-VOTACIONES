@@ -1,7 +1,7 @@
 version: '3.9'
 
 services:
-    vote_backend:
+    vote-service:
         build:
             context: ..
             dockerfile: docker/Dockerfile.dev
@@ -13,11 +13,11 @@ services:
         env_file:
             - ../.env
         networks:
-            - vote
+            - vote-network
         depends_on:
-            - vote_postgres_db
+            - vote-db
             
-    vote_postgres_db:
+    vote-db:
         build:
             context: ../config_db
             dockerfile: Dockerfile
@@ -28,7 +28,7 @@ services:
         env_file:
             - ../.env
         networks:
-            - vote
+            - vote-network
 
 networks:
     vote:
