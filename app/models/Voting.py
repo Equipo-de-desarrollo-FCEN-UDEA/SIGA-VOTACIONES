@@ -18,7 +18,7 @@ class VotingBase(SQLModel):
 class Voting(VotingBase, table=True):
     id: str | None = Field(default=cuid(), primary_key=True)
 
-    votes: List[Vote] = Relationship(back_populates="voting")
+    votes: list[Vote] = Relationship(back_populates="voting")
 
     created_at: datetime = Field(default_factory=datetime.now, alias="createAt")
     updated_at: datetime = Field(default_factory=datetime.now, alias="updateAt")

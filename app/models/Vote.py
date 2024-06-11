@@ -4,7 +4,7 @@ from cuid import cuid
 from sqlmodel import Relationship, SQLModel, Field
 from datetime import datetime
 
-from app.schemas.enums import VoteType
+from app.models.enums import VoteType
 
 class VoteBase(SQLModel):
     vote_type: VoteType
