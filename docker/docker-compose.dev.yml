@@ -1,11 +1,7 @@
 version: '3.9'
 
 services:
-<<<<<<< HEAD
-    vote_backend:
-=======
     vote-service:
->>>>>>> Durango
         build:
             context: ..
             dockerfile: docker/Dockerfile.dev
@@ -17,28 +13,6 @@ services:
         env_file:
             - ../.env
         networks:
-<<<<<<< HEAD
-            - vote_red
-        depends_on:
-            - vote_db
-            
-    vote_db: 
-        container_name: 'db-votaciones'
-        image: postgres:15.0
-        ports:
-            - '5433:5433'
-        env_file:
-            - .env
-        environment:
-            - PGDATA=/var/lib/postgresql/data/pgdata
-        networks:
-            - vote_red
-        volumes:
-            - ./db/postgres-data:/var/lib/postgresql/data
-
-networks:
-    vote_red:
-=======
             - vote-network
         depends_on:
             - vote-db
@@ -58,5 +32,4 @@ networks:
 
 networks:
     vote:
->>>>>>> Durango
         external: True
