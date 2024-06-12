@@ -1,4 +1,3 @@
-from typing import Optional
 from cuid import cuid
 from sqlmodel import Relationship, SQLModel, Field
 from datetime import datetime
@@ -10,10 +9,10 @@ from app.models.Voting import Voting
 class VoteBase(SQLModel):
     vote_type: VoteType
     user_id: int
-    voting_id: str = Field(foreign_key="votings.id")
-
-class Vote(VoteBase):
-    id: str = Field(default=cuid(), primary_key=True)
+    voting_id: str | None = Field(default=None, foreign_key="voting.id")
+    
+class Vote(VoteBase, table=True):
+    id: str | None = Field(default=cuid(), primary_key=True)
 
     voting: Voting = Relationship(back_populates="votes")
 
