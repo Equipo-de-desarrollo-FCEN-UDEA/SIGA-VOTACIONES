@@ -4,7 +4,6 @@ version = "0.1.0"
 description = ""
 authors = ["Jhon <jhon.jaramilloe@udea.edu.co>"]
 readme = "README.md"
-packages = [{include = "lulu-database"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"

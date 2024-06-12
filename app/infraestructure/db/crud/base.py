@@ -3,7 +3,7 @@ from datetime import date
 
 from app.infraestructure.db.utils.model import BaseModel as Model
 from app.schemas.model import UpdateSchemaType, CreateSchemaType
-from app.infraestructure.db.utils.session import SessionLocal
+from app.infraestructure.db.utils.session import get_session
 
 
 ModelType = TypeVar("ModelType", bound=Model)
@@ -16,14 +16,14 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     def create(self, *, obj_in: CreateSchemaType) -> ModelType:
         obj_in_data = obj_in.dict()
         db_obj = self.model(**obj_in_data)
-        with SessionLocal() as db:
+        with get_session() as db:
             db.add(db_obj)
             db.commit()
             db.refresh(db_obj)
             return db_obj
 
     def get(self, *, id: int) -> ModelType:
-        with SessionLocal() as db:
+        with get_session() as db:
            return db.query(self.model).filter(self.model.id == id).first()
 
     def get_multi(
@@ -36,13 +36,13 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         date_range: dict[str, date] | None = None,
         values: tuple[str] | None = None
     ) -> list[ModelType | dict[str, Any]]:
-        with SessionLocal() as db:
+        with get_session() as db:
             return db.query(self.model).offset(skip).limit(limit).all()
         
 
     def update(self, *, id: int, obj_in: UpdateSchemaType) -> ModelType:
         obj_data = obj_in.dict()
-        with SessionLocal() as db:
+        with get_session() as db:
             db_obj = db.query(self.model).filter(self.model.id == id).first()
             for field in dict(db_obj):
                 if field in obj_data:
@@ -53,7 +53,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             return db_obj
 
     def delete(self, *, id: int) -> int:
-        with SessionLocal() as db:
+        with get_session() as db:
             obj_db = db.query(self.model).get(id)
             db.delete(obj_db)
             db.commit()

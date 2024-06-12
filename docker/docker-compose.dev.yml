@@ -31,5 +31,5 @@ services:
             - vote-network
 
 networks:
-    vote:
-        external: True
+    vote-network:
+        driver: bridge
