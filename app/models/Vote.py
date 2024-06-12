@@ -1,20 +1,19 @@
 # vote.py
-from typing import Optional
-from cuid import cuid
 from sqlmodel import Relationship, SQLModel, Field
 from datetime import datetime
 
+from app.models import Voting
 from app.models.enums import VoteType
 
 class VoteBase(SQLModel):
     vote_type: VoteType
-    user_id: int
-    voting_id: str = Field(foreign_key="voting.id")
+
+    user_id: str = Field(primary_key=True)
+    voting_id: str = Field(foreign_key="voting.id", primary_key=True)
+    
 
 class Vote(VoteBase):
-    id: str = Field(default=cuid(), primary_key=True)
-
-    voting: "voting" = Relationship(back_populates="votes") # type: ignore
+    voting: Voting = Relationship(back_populates="votes")
 
     created_at: datetime = Field(default_factory=datetime.now, alias="createAt")
     updated_at: datetime = Field(default_factory=datetime.now, alias="updateAt")
@@ -22,5 +21,8 @@ class Vote(VoteBase):
 class VoteCreate(VoteBase):
     pass
 
-class VoteUpdate(VoteBase):
+class VoteRead(VoteBase):
     pass
+
+class VoteUpdate(SQLModel):
+    vote_type: VoteType
