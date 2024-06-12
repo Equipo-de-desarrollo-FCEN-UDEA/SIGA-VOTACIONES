@@ -4,6 +4,8 @@ from datetime import datetime
 
 from app.models import Voting
 from app.models.enums import VoteType
+from app.models.Voting import Voting
+
 
 class VoteBase(SQLModel):
     vote_type: VoteType
