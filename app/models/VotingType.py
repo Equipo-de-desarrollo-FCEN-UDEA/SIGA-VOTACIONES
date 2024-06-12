@@ -1,8 +1,10 @@
 from datetime import datetime
 from sqlmodel import Field, Relationship, SQLModel
 from cuid import cuid
+from typing import TYPE_CHECKING
 
-from app.models.Voting import Voting
+if TYPE_CHECKING:
+    from app.models.Voting import Voting
 
 class VotingTypeBase(SQLModel):
     concejo_id: str
@@ -10,7 +12,7 @@ class VotingTypeBase(SQLModel):
 class VotingType(VotingTypeBase, table=True):
     id: str | None = Field(default=cuid(), primary_key=True)
 
-    votings: list[Voting] = Relationship(back_populates="voting_type")
+    votings: list["Voting"] = Relationship(back_populates="type")
 
     created_at: datetime = Field(default_factory=datetime.now, alias="createAt")
     updated_at: datetime = Field(default_factory=datetime.now, alias="updateAt")

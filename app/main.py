@@ -1,14 +1,20 @@
+import logging
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
+from app.models.Status import Status
+from app.models.Vote import Vote
+from app.models.VotingType import VotingType
+from app.models.Voting import Voting
+from app.models.enums import VoteType, StatusName
 
 from app.api.router import api_router
-from app.core.config import settings
-from app.infraestructure.db.config import init_db
+#from app.infraestructure.db.config import init_db
+from app.config.database import create_db_and_tables
 
 
 def create_app() -> FastAPI:
     """Create the application."""
-    app = FastAPI(title=settings.APP_NAME, version=settings.APP_VERSION)
+    app = FastAPI()
     app.add_middleware(
         CORSMiddleware,
         allow_origins=["*"],
@@ -16,7 +22,7 @@ def create_app() -> FastAPI:
         allow_methods=["*"],
         allow_headers=["*"],
     )
-    app.include_router(api_router, prefix=settings.API_V1_STR)
+    app.include_router(api_router)
     return app
 
 
@@ -24,6 +30,8 @@ app = create_app()
 
 
 @app.on_event("startup")
-async def startup_event():
-    """Event start up"""
-    init_db()
+def startup_event():
+    logging.basicConfig(level=logging.DEBUG)
+    logger = logging.getLogger(__name__)
+    logger.debug("Event start up")
+    create_db_and_tables()
