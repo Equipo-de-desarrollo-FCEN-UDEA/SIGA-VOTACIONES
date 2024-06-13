@@ -37,6 +37,7 @@ class VoteService:
                 raise HTTPException(status_code=404, detail="Vote not found")
             vote_data = vote.model_dump(exclude_unset=True)
             db_vote.sqlmodel_update(vote_data)
+            db_vote.updatedAt = datetime.now()
             session.add(db_vote)
             session.commit()
             session.refresh(db_vote)

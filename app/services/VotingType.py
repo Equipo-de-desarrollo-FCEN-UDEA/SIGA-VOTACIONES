@@ -37,6 +37,7 @@ class VotingTypeService:
                 raise HTTPException(status_code=404, detail="VotingType not found")
             voting_type_data = voting_type.model_dump(exclude_unset=True)
             db_voting_type.sqlmodel_update(voting_type_data)
+            db_voting_type.updatedAt = datetime.now()
             session.add(db_voting_type)
             session.commit()
             session.refresh(db_voting_type)

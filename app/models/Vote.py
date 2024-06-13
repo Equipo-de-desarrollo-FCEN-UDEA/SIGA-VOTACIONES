@@ -28,3 +28,4 @@ class VoteRead(VoteBase):
 
 class VoteUpdate(SQLModel):
     vote_type: VoteType
+
