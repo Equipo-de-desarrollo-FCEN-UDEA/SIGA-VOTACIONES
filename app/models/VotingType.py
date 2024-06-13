@@ -20,6 +20,9 @@ class VotingType(VotingTypeBase, table=True):
 class VotingTypeCreate(VotingTypeBase):
     pass
 
+class VotingTypeRead(VotingTypeBase):
+    pass
+
 class VotingTypeUpdate(VotingTypeBase):
     pass
 
