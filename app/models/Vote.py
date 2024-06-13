@@ -14,7 +14,7 @@ class VoteBase(SQLModel):
     voting_id: str = Field(foreign_key="voting.id", primary_key=True)
     
 
-class Vote(VoteBase):
+class Vote(VoteBase, table=True):
     voting: Voting = Relationship(back_populates="votes")
 
     created_at: datetime = Field(default_factory=datetime.now, alias="createAt")
