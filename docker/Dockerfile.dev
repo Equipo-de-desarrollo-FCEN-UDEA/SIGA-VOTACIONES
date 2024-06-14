@@ -17,12 +17,19 @@ ENV PYTHONUNBUFFERED=1 \
 
 ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
 
-
 FROM python-base as requirements-image
 RUN apt-get update \
     && apt-get install --no-install-recommends -y \
     curl \
-    build-essential
+    build-essential \
+    locales  # Instalar locales
+
+# Configurar la localización
+RUN echo "es_ES.UTF-8 UTF-8" > /etc/locale.gen && locale-gen
+
+ENV LANG es_ES.UTF-8
+ENV LANGUAGE es_ES:es
+ENV LC_ALL es_ES.UTF-8
 
 RUN curl -sSL https://install.python-poetry.org | python 
 
@@ -36,11 +43,10 @@ RUN poetry lock
 
 RUN poetry export --without-hashes --with dev --format=requirements.txt > requirements.txt
 
-
 FROM python-base as compile-image
 WORKDIR /usr/src/app
 COPY --from=requirements-image /usr/src/app/requirements.txt /usr/src/app/requirements.txt
-# set environment varibles
+# set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
@@ -49,15 +55,34 @@ RUN apt-get update \
     && apt-get install --no-install-recommends -y \
     curl \
     build-essential \
+    locales \
     && python -m venv /home/venv
-    
+
+# Configurar la localización
+RUN echo "es_ES.UTF-8 UTF-8" > /etc/locale.gen && locale-gen
+
+ENV LANG es_ES.UTF-8
+ENV LANGUAGE es_ES:es
+ENV LC_ALL es_ES.UTF-8
+
 ENV PATH="/home/venv/bin:$PATH"
 RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install --no-cache-dir pydantic[email]
 
-
 FROM python:3.10 AS runtime-image
 ENV PYTHONUNBUFFERED TRUE
+
+# Instalar dependencias necesarias y configurar localización
+RUN apt-get update \
+    && apt-get install --no-install-recommends -y \
+    locales \
+    && echo "es_ES.UTF-8 UTF-8" > /etc/locale.gen \
+    && locale-gen
+
+ENV LANG es_ES.UTF-8
+ENV LANGUAGE es_ES:es
+ENV LC_ALL es_ES.UTF-8
+
 COPY --from=compile-image /home/venv /home/venv
 ENV PATH="/home/venv/bin:$PATH"
 WORKDIR /usr/src/app

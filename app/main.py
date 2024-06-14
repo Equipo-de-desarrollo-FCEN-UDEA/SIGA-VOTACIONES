@@ -6,7 +6,6 @@ from app.models.Vote import Vote
 from app.models.VotingType import VotingType
 from app.models.Voting import Voting
 from app.models.enums import VoteType, StatusName
-from app.core.config import get_app_settings
 
 from app.api.router import api_router
 #from app.infraestructure.db.config import init_db
