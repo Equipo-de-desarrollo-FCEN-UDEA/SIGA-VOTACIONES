@@ -18,9 +18,7 @@ services:
             - vote-db
             
     vote-db:
-        build:
-            context: ../config_db
-            dockerfile: Dockerfile
+        image: postgres:13
         volumes:
             - ../db/postgres-data-vote:/var/lib/postgresql/data-vote
         ports:
