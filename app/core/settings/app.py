@@ -6,15 +6,25 @@ from pydantic import PostgresDsn, SecretStr, validator, RedisDsn, MongoDsn, AnyH
 from app.core.settings.base import BaseAppSettings
 
 class AppSettings(BaseAppSettings):
-    # Configuración de la base de datos postgres
+
+    # postgres
     postgres_server: str
-    db_port: int
-    db_user: str
-    db_password: SecretStr
-    db_name: str
-    db_url: Optional[PostgresDsn] = None
+    postgres_user: str
+    postgres_password: str
+    postgres_db: str
 
     # App
     database_uri: Optional[PostgresDsn] = None
+
+    @validator("database_uri", pre=True)
+    def validate_database_uri(cls, v: Optional[str], values: Dict[str, Any]) -> Any:
+        return PostgresDsn.build(
+            scheme="postgresql",
+            user=values.get('postgres_user'),
+            password=values.get('postgres_password'),
+            host=values.get('postgres_server'),
+            path=f"/{values.get('postgres_db')}"
+        )
+
 
     

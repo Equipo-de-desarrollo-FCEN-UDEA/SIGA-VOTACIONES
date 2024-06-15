@@ -11,7 +11,7 @@ posgres_url = "postgresql://postgres:postgres@vote-db:5432/vote_db"
 settings = get_app_settings()
 
 #connect_args = {"check_same_thread": False}
-engine = create_engine(posgres_url, echo=True, 
+engine = create_engine(settings.database_uri, echo=True, 
                        pool_pre_ping=True)
 
 Session = Session(engine)
