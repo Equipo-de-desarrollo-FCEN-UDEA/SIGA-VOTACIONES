@@ -25,11 +25,11 @@ class BaseService:
             return entities
 
     def get_by_id(self, entity_id: str):
-        with self.db:
-            entity = self.db.get(self.model, entity_id)
-            if not entity:
-                raise HTTPException(status_code=404, detail="Entity not found")
-            return entity
+        #with self.db:
+        entity = self.db.get(self.model, entity_id)
+        if not entity:
+            raise HTTPException(status_code=404, detail="Entity not found")
+        return entity
 
     def update(self, entity_id: str, update_schema):
         with self.db as session:

@@ -1,11 +1,10 @@
 from datetime import datetime
-from typing import List
 from typing import TYPE_CHECKING
 from cuid import cuid
 
 from sqlmodel import SQLModel, Field, Relationship
 
-from app.models.Status import Status
+from app.models.Status import Status, StatusRead
 
 if TYPE_CHECKING:
     from app.models.Vote import Vote
@@ -34,3 +33,8 @@ class VotingCreate(VotingBase):
 
 class VotingRead(VotingBase):
     id: str
+
+class VotingReadWithInfo(VotingRead):
+    from app.models.Vote import VoteRead
+    status: StatusRead | None = None
+    votes: list[VoteRead] = []

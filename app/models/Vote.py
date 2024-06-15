@@ -23,8 +23,8 @@ class Vote(VoteBase, table=True):
 class VoteCreate(VoteBase):
     pass
 
-class VoteRead(VoteBase):
-    pass
+class VoteRead(SQLModel):
+    vote_type: VoteType
 
 class VoteUpdate(SQLModel):
     vote_type: VoteType
