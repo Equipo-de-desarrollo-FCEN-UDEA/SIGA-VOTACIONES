@@ -18,8 +18,8 @@ class Status(StatusBase, table=True):
     
     votings: List["Voting"] = Relationship(back_populates="status")   
 
-    created_at: datetime | None = Field(default_factory=datetime.now, alias="createAt")
-    updated_at: datetime | None = Field(default_factory=datetime.now, alias="updateAt")
+    created_at: datetime | None = Field(default_factory=datetime.now, alias="createdAt")
+    updated_at: datetime | None = Field(default_factory=datetime.now, alias="updatedAt")
     
     
 class StatusCreate(StatusBase):
