@@ -5,10 +5,10 @@ sqlite_file_name = "../database.sqlite"
 base_dir = os.path.dirname(os.path.realpath(__file__))
 
 database_url = f"sqlite:///{os.path.join(base_dir, sqlite_file_name)}"
-posgres_url = "postgresql://postgres:postgres@vote-db:5432/vote_db"
+postgres_url = "postgresql://postgres:postgres@vote-db:5432/vote_db"
 
 #connect_args = {"check_same_thread": False}
-engine = create_engine(database_url, echo=True, pool_pre_ping=True)
+engine = create_engine(postgres_url, echo=True, pool_pre_ping=True)
 
 Session = Session(engine)
 

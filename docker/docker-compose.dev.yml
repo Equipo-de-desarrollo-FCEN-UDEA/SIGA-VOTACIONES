@@ -18,6 +18,7 @@ services:
             - vote-db
             
     vote-db:
+        image: postgres:13
         build:
             context: ../config_db
             dockerfile: Dockerfile
