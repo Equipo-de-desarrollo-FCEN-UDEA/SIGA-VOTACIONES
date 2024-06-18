@@ -1,4 +1,4 @@
-from app.models.Status import Status
+from app.models.Status import Status, StatusRead
 from app.services.BaseService import BaseService
 
 

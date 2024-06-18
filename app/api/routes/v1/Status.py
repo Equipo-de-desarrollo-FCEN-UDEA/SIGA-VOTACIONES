@@ -1,11 +1,12 @@
+from typing import List
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 
-from app.models.Status import StatusCreate, StatusReadWithVotings
+from app.models.Status import StatusCreate, StatusRead
 from app.services.Status import StatusService as Service
 
 from app.config.database import Session
-
+from fastapi.encoders import jsonable_encoder
 
 
 status_router = APIRouter()
@@ -18,8 +19,9 @@ def create(status: StatusCreate) -> dict:
     status_db = Service(db).create(status)
     return JSONResponse(status_code=201, content={'message': "se registro el nuevo estado"})
 
-@status_router.get('/all', tags=tags, response_model=StatusReadWithVotings, status_code=200)
-def get_all() -> dict:
+@status_router.get('/all', tags=tags, response_model=List[StatusRead], status_code=200)
+def get_all() -> List[dict]:
     db = Session
-    status = Service(db).get_all()
-    return JSONResponse(status_code=200, content=status)
+    status_list = Service(db).get_all()
+    return JSONResponse(status_code=200, content=jsonable_encoder(status_list))
+    #return [StatusRead.model_validate({"name": status.name, "id": status.id}) for status in status_list]

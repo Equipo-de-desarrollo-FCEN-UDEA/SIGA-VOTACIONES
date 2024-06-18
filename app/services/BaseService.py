@@ -1,10 +1,11 @@
 from datetime import datetime
 from fastapi import HTTPException
 from sqlmodel import SQLModel, select
+from typing import Type, Optional
 from cuid import cuid
 
 class BaseService:
-    def __init__(self, db, model):
+    def __init__(self, db, model: Type[SQLModel]):
         self.db = db
         self.model = model
 
@@ -19,7 +20,7 @@ class BaseService:
             self.db.refresh(entity)
             return entity
 
-    def get_all(self):
+    def get_all(self) -> list[SQLModel]:
         with self.db:
             entities = self.db.exec(select(self.model)).all()
             return entities

@@ -30,5 +30,5 @@ class StatusRead(StatusBase):
 
 class StatusReadWithVotings(StatusRead):
     from .Voting import VotingRead
-    votings: List[VotingRead] = []
+    #votings: List[VotingRead] = []
 
