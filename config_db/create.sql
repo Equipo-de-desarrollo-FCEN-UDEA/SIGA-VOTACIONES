@@ -1,1 +1,0 @@
-CREATE DATABASE vote_db;
