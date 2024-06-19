@@ -8,6 +8,7 @@ from app.models.Status import Status, StatusRead
 
 if TYPE_CHECKING:
     from app.models.Vote import Vote
+    from app.models.Prueba import Prueba
 
 from app.models.VotingType import VotingType
 
@@ -24,6 +25,8 @@ class Voting(VotingBase, table=True):
     
     status: Status = Relationship(back_populates="votings")
     type: VotingType = Relationship(back_populates="votings")
+
+    pruebas: list["Prueba"] = Relationship(back_populates="voting")
     
     created_at: datetime = Field(default_factory=datetime.now, alias="createAt")
     updated_at: datetime = Field(default_factory=datetime.now, alias="updateAt")

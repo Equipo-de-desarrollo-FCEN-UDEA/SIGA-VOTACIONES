@@ -8,13 +8,13 @@ from app.models.Voting import Voting
 
 
 class VoteBase(SQLModel):
-    vote_type: VoteType
+    vote_type: str 
 
     user_id: str = Field(primary_key=True)
-    voting_id: str = Field(foreign_key="voting.id", primary_key=True)
-    
+    voting_id: str = Field(foreign_key="voting.id", primary_key=True)   
 
 class Vote(VoteBase, table=True):
+
     voting: Voting = Relationship(back_populates="votes")
 
     created_at: datetime = Field(default_factory=datetime.now, alias="createAt")
@@ -24,7 +24,7 @@ class VoteCreate(VoteBase):
     pass
 
 class VoteRead(SQLModel):
-    vote_type: VoteType
+    vote_type: str
 
 class VoteUpdate(SQLModel):
     vote_type: VoteType

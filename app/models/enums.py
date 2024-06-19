@@ -3,7 +3,7 @@ from enum import Enum
 class VoteType(str, Enum):
     positive = "positive"
     negative = "negative"
-    consensus = "consensus"
+    meet = "meet"
 
 class StatusName(str, Enum):
     approved = "approved"
