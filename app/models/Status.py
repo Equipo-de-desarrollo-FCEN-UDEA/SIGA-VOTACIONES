@@ -28,3 +28,7 @@ class StatusCreate(StatusBase):
 class StatusRead(StatusBase):
     id: str
 
+class StatusReadWithVotings(StatusRead):
+    from .Voting import VotingRead
+    #votings: List[VotingRead] = []
+

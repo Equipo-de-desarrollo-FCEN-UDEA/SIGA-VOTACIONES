@@ -1,5 +1,5 @@
 from app.models.VotingType import VotingType
-from app.services import BaseService
+from app.services.BaseService import BaseService
 
 
 class VotingTypeService(BaseService):

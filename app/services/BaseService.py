@@ -1,10 +1,11 @@
 from datetime import datetime
 from fastapi import HTTPException
 from sqlmodel import SQLModel, select
+from typing import Type, Optional
 from cuid import cuid
 
 class BaseService:
-    def __init__(self, db, model):
+    def __init__(self, db, model: Type[SQLModel]):
         self.db = db
         self.model = model
 
@@ -19,17 +20,17 @@ class BaseService:
             self.db.refresh(entity)
             return entity
 
-    def get_all(self):
+    def get_all(self) -> list[SQLModel]:
         with self.db:
             entities = self.db.exec(select(self.model)).all()
             return entities
 
     def get_by_id(self, entity_id: str):
-        with self.db:
-            entity = self.db.get(self.model, entity_id)
-            if not entity:
-                raise HTTPException(status_code=404, detail="Entity not found")
-            return entity
+        #with self.db:
+        entity = self.db.get(self.model, entity_id)
+        if not entity:
+            raise HTTPException(status_code=404, detail="Entity not found")
+        return entity
 
     def update(self, entity_id: str, update_schema):
         with self.db as session:
