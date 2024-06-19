@@ -10,13 +10,13 @@ if TYPE_CHECKING:
     from app.models.Vote import Vote
     from app.models.Prueba import Prueba
 
-from app.models.VotingType import VotingType
+from app.models.MeetType import MeetType
 
 
 class VotingBase(SQLModel):
     maxVotes: int
     status_id: str | None = Field(default=None, foreign_key="status.id")
-    type_id: str | None = Field(default=None, foreign_key="votingtype.id")
+    meet_type_id: str | None = Field(default=None, foreign_key="meettype.id")
 
 class Voting(VotingBase, table=True):
     id: str | None = Field(default=cuid(), primary_key=True)
@@ -24,9 +24,7 @@ class Voting(VotingBase, table=True):
     votes: list["Vote"] = Relationship(back_populates="voting")
     
     status: Status = Relationship(back_populates="votings")
-    type: VotingType = Relationship(back_populates="votings")
-
-    pruebas: list["Prueba"] = Relationship(back_populates="voting")
+    meet_type: MeetType = Relationship(back_populates="votings")
     
     created_at: datetime = Field(default_factory=datetime.now, alias="createAt")
     updated_at: datetime = Field(default_factory=datetime.now, alias="updateAt")

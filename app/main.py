@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 from app.models.Status import Status
 from app.models.Vote import Vote
-from app.models.VotingType import VotingType
+from app.models.MeetType import MeetType
 from app.models.Voting import Voting
 from app.models.enums import VoteType, StatusName
 

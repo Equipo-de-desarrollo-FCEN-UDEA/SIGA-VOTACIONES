@@ -6,6 +6,7 @@ class VoteType(str, Enum):
     meet = "meet"
 
 class StatusName(str, Enum):
+    waiting = "waiting"
     approved = "approved"
     declined = "declined"
-    waiting = "waiting"
+    

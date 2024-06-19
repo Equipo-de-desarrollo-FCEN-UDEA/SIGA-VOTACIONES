@@ -1,3 +1,4 @@
+from typing import List
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 
@@ -5,7 +6,7 @@ from app.models.Status import StatusCreate, StatusReadWithVotings, StatusRead
 from app.services.Status import StatusService as Service
 
 from app.config.database import Session
-
+from fastapi.encoders import jsonable_encoder
 
 
 status_router = APIRouter()
