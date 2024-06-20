@@ -17,11 +17,10 @@ tags = {'voting'}
 def create(voting: VotingCreate) -> dict:
     db = Session
     voting_db = Service(db).create(voting)
-    return JSONResponse(status_code=201, content={'message': "se registró el nuevo tipo de votación"})
+    return JSONResponse(status_code=201, content={'message': "se registró una nueva votación"})
 
 @voting_router.get('/info', tags=tags, response_model=VotingReadWithInfo, status_code=200)
 def get_voting_info(voting_id: str) -> dict:
     db = Session
-    #voting_db = Service(db).get_by_id(voting_id)
-    voting_db = Session.get(Voting, voting_id)
-    return voting_db #JSONResponse(status_code=200, content=jsonable_encoder(voting_db))
+    voting_db = Service(db).get_by_id(voting_id)
+    return (voting_db)

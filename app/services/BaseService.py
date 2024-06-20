@@ -26,7 +26,6 @@ class BaseService:
             return entities
 
     def get_by_id(self, entity_id: str):
-        #with self.db:
         entity = self.db.get(self.model, entity_id)
         if not entity:
             raise HTTPException(status_code=404, detail="Entity not found")

@@ -13,6 +13,7 @@ from app.models.MeetType import MeetType
 
 
 class VotingBase(SQLModel):
+    mongo_id: str
     maxVotes: int
     status_id: str | None = Field(default=None, foreign_key="status.id")
     meet_type_id: str | None = Field(default=None, foreign_key="meettype.id")

@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import List
 from typing import TYPE_CHECKING
 from cuid import cuid
 
@@ -16,7 +15,7 @@ class StatusBase(SQLModel):
 class Status(StatusBase, table=True):
     id: str | None = Field(default=cuid(), primary_key=True)
     
-    votings: List["Voting"] = Relationship(back_populates="status")   
+    votings: list["Voting"] = Relationship(back_populates="status")   
 
     created_at: datetime | None = Field(default_factory=datetime.now, alias="createdAt")
     updated_at: datetime | None = Field(default_factory=datetime.now, alias="updatedAt")
@@ -30,5 +29,5 @@ class StatusRead(StatusBase):
 
 class StatusReadWithVotings(StatusRead):
     from .Voting import VotingRead
-    #votings: List[VotingRead] = []
+    votings: list[VotingRead] = []
 
