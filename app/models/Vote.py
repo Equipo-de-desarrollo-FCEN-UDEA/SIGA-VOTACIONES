@@ -8,7 +8,7 @@ from app.models.Voting import Voting
 
 
 class VoteBase(SQLModel):
-    vote_type: str 
+    vote_type: VoteType 
 
     user_id: str = Field(primary_key=True)
     voting_id: str = Field(foreign_key="voting.id", primary_key=True)   
@@ -24,6 +24,7 @@ class VoteCreate(VoteBase):
     pass
 
 class VoteRead(SQLModel):
+    user_id: str
     vote_type: str
 
 class VoteUpdate(SQLModel):

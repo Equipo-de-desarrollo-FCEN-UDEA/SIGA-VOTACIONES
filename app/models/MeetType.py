@@ -7,7 +7,8 @@ if TYPE_CHECKING:
     from app.models.Voting import Voting
 
 class MeetTypeBase(SQLModel):
-    concejo_id: str
+    department_id: str
+    rol_id: str
 
 class MeetType(MeetTypeBase, table=True):
     id: str | None = Field(default=cuid(), primary_key=True)
@@ -21,7 +22,7 @@ class MeetTypeCreate(MeetTypeBase):
     pass
 
 class MeetTypeRead(MeetTypeBase):
-    pass
+    id: str
 
 class MeetTypeUpdate(MeetTypeBase):
     pass

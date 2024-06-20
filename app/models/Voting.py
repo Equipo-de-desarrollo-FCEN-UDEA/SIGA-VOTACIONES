@@ -8,12 +8,12 @@ from app.models.Status import Status, StatusRead
 
 if TYPE_CHECKING:
     from app.models.Vote import Vote
-    from app.models.Prueba import Prueba
 
 from app.models.MeetType import MeetType
 
 
 class VotingBase(SQLModel):
+    mongo_id: str
     maxVotes: int
     status_id: str | None = Field(default=None, foreign_key="status.id")
     meet_type_id: str | None = Field(default=None, foreign_key="meettype.id")

@@ -2,8 +2,7 @@ from fastapi import APIRouter
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 
-from sqlmodel import select
-from app.models.Vote import VoteCreate, VoteUpdate, VoteRead, Vote
+from app.models.Vote import VoteCreate, VoteUpdate, VoteRead
 from app.services.Vote import VoteService as Service
 
 from app.config.database import Session
@@ -21,22 +20,20 @@ def vote(vote: VoteCreate) -> dict:
     vote = Service(db).create(vote)
     return JSONResponse(status_code=201, content={'message': "se registro el voto"})
 
-@vote_router.put('/cambiar_voto/', tags=tags, response_model=dict, status_code=200)
-def update_adelanto(user_id: str, voting_id: str, new_vote: VoteUpdate) -> dict:
+@vote_router.put('/update/', tags=tags, response_model=dict, status_code=200)
+def update_vote(user_id: str, voting_id: str, new_vote: VoteUpdate) -> dict:
     db = Session
-    Service(db).update_vote(user_id, voting_id, new_vote)
+    Service(db).update(user_id, voting_id, new_vote)
     return JSONResponse(status_code=200, content={"message": "se cambio el voto"})
 
-@vote_router.get('/all', tags=tags, response_model=list[VoteRead], status_code=200)
-def get_all() -> dict:
+@vote_router.get('/get_vote/{user_id}/{voting_id}', tags=tags, response_model=VoteRead, status_code=200)
+def get_vote(user_id: str, voting_id: str) -> VoteRead:
     db = Session
-    votes = Service(db).get_all()
+    vote = Service(db).get_by_id(user_id, voting_id)
+    return vote
+
+@vote_router.get('/get_votes/{voting_id}', tags=tags, response_model=list[VoteRead], status_code=200)
+def get_votes(voting_id: str) -> list[VoteRead]:
+    db = Session
+    votes = Service(db).get_by_voting_id(voting_id)
     return votes
-
-
-@vote_router.get('/votos/{voting_id}', tags=tags, response_model=list[VoteRead], status_code=200)
-def get_vote_by_voting(voting_id: str) -> dict:
-    db = Session
-    votes = Service(db).get_votes_by_voting(voting_id)
-    print(votes)
-    return votes.all()
