@@ -14,7 +14,7 @@ settings = get_app_settings()
 #engine = create_engine(settings.database_uri, echo=True, 
  #                      pool_pre_ping=True)
 
-engine = create_engine(database_url, echo=True, connect_args={"check_same_thread": False})
+engine = create_engine(settings.database_uri, echo=True)
 
 Session = Session(engine)
 
