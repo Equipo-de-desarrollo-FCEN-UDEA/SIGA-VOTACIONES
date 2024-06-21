@@ -27,4 +27,4 @@ except LocaleError:
 def get_app_settings() -> AppSettings:
     app_env = BaseAppSettings().env
     config = environments[app_env]
-    return config()
+    return config
