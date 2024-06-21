@@ -10,13 +10,16 @@ postgres_url = "postgresql://postgres:postgres@vote-db:5432/vote_db"
 
 settings = get_app_settings()
 
-#connect_args = {"check_same_thread": False}
-#engine = create_engine(settings.database_uri, echo=True, 
- #                      pool_pre_ping=True)
+def get_engine(url: str = settings.database_uri):
+    return create_engine(url, echo=True)
 
-engine = create_engine(settings.database_uri, echo=True)
+engine = get_engine(database_url)
 
-Session = Session(engine)
+def get_sesion():
+    with Session(engine) as session:
+        yield session
+
+session = Session(engine)
 
 def create_db_and_tables():
     SQLModel.metadata.create_all(engine)

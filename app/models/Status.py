@@ -10,10 +10,11 @@ if TYPE_CHECKING:
     from app.models.Voting import Voting
 
 class StatusBase(SQLModel):
+    id: str | None = Field(primary_key=True)
     name: StatusName
 
 class Status(StatusBase, table=True):
-    id: str | None = Field(default=cuid(), primary_key=True)
+    
     
     votings: list["Voting"] = Relationship(back_populates="status")   
 

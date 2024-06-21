@@ -1,5 +1,6 @@
 from functools import lru_cache
-from locale import setlocale, LC_TIME
+from locale import setlocale, LC_TIME, Error as LocaleError
+import logging
 
 from typing import Type, Dict
 
@@ -13,8 +14,12 @@ environments: Dict[AppEnv, Type[AppSettings]] = {
     # AppEnv.Testing: TestingAppSettings
 }
 
+logger = logging.getLogger(__name__)
 
-setlocale(LC_TIME, 'es_ES.UTF-8')
+try:
+    setlocale(LC_TIME, 'es_ES.UTF-8')
+except LocaleError:
+    logger.warning("Locale 'es_ES.UTF-8' not supported, using default locale")
 
 
 # Aquí generamos la configuración de la aplicación y la almacenamos en la caché de python

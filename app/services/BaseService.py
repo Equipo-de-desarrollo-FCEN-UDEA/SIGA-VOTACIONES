@@ -12,7 +12,8 @@ class BaseService:
     def create(self, create_schema):
         with self.db:
             entity = self.model.model_validate(create_schema)
-            entity.id = cuid()
+            if not create_schema.model_dump().get('id'):
+                entity.id = cuid()
             entity.created_at = datetime.now()
             entity.updated_at = datetime.now()
             self.db.add(entity)
