@@ -1,17 +1,17 @@
 from datetime import datetime
 from fastapi import HTTPException
-from sqlmodel import SQLModel, select
-from typing import Type, Optional
+from sqlmodel import SQLModel, select, Session
+from typing import Type
 from cuid import cuid
 
 class BaseService:
-    def __init__(self, db, model: Type[SQLModel]):
+    def __init__(self, db: Session, model: Type[SQLModel]):
         self.db = db
         self.model = model
 
     def create(self, create_schema):
         with self.db:
-            entity = self.model.model_validate(create_schema)
+            entity = self.model.model_validate(create_schema)            
             entity.id = cuid()
             entity.created_at = datetime.now()
             entity.updated_at = datetime.now()

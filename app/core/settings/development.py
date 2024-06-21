@@ -9,5 +9,5 @@ class DevelopmentAppSettings(AppSettings):
     title: str = "FastAPI sistema de votaciones - Development"
     logging_level: int = logging.DEBUG
 
-    class Config(AppSettings.Config):
+    class Config():
         env_file = ".env"

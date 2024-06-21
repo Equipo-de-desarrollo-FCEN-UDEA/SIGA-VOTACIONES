@@ -13,7 +13,7 @@ class StatusBase(SQLModel):
     name: StatusName
 
 class Status(StatusBase, table=True):
-    id: str | None = Field(default=cuid(), primary_key=True)
+    id: str | None = Field(primary_key=True)
     
     votings: list["Voting"] = Relationship(back_populates="status")   
 

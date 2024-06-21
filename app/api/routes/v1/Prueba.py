@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 
-from app.config.database import Session
+from app.config.database import session
 
 from app.models.MeetType import MeetTypeCreate, MeetType
 from app.models.Status import StatusCreate, Status
@@ -15,7 +15,7 @@ tags = {'prueba'}
 
 @prueba_router.post('/init', tags=tags, response_model=dict, status_code=201)
 def init()-> dict:
-    db = Session
+    db = session
 
     type = MeetTypeCreate(rol_id="con_inst", department_id="mat")
     status1 = StatusCreate(name="approved")
