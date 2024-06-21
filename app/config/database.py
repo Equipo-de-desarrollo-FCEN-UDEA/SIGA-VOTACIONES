@@ -9,11 +9,6 @@ database_url = f"sqlite:///{os.path.join(base_dir, sqlite_file_name)}"
 postgres_url = "postgresql://postgres:postgres@vote-db:5432/vote_db"
 
 settings = get_app_settings()
-
-#connect_args = {"check_same_thread": False}
-#engine = create_engine(settings.database_uri, echo=True, 
- #                      pool_pre_ping=True)
-
 engine = create_engine(settings.database_uri, echo=True)
 
 Session = Session(engine)

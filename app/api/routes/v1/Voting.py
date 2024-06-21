@@ -24,3 +24,9 @@ def get_voting_info(voting_id: str) -> dict:
     db = Session
     voting_db = Service(db).get_by_id(voting_id)
     return (voting_db)
+
+@voting_router.post("/votings/{voting_id}/close", response_model=dict)
+def close_voting(voting_id: str) -> dict:
+    db = Session
+    result = Service(db).close_voting(voting_id)
+    return result
