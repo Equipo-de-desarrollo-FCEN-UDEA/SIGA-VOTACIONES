@@ -8,15 +8,11 @@ base_dir = os.path.dirname(os.path.realpath(__file__))
 database_url = f"sqlite:///{os.path.join(base_dir, sqlite_file_name)}"
 
 settings = get_app_settings()
-<<<<<<< HEAD
-engine = create_engine(settings.database_uri, echo=True)
-=======
 
 def get_engine(url: str = database_url):
     return create_engine(url, echo=True)
 
 engine = get_engine(database_url)
->>>>>>> feature/tests/status
 
 def get_session():
     with Session(engine) as session:
