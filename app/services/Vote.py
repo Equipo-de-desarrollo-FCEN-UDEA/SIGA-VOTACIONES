@@ -4,11 +4,11 @@ from sqlmodel import select
 from sqlalchemy.exc import IntegrityError
 from app.models.Vote import Vote
 
-
+from app.policies import VotePolicy
 from app.services.BaseService import BaseService
 
 
-class VoteService(BaseService):
+class VoteService(BaseService, VotePolicy):
     def __init__(self, db):
         super().__init__(db, Vote)
 
@@ -70,4 +70,14 @@ class VoteService(BaseService):
             if count_votes == voting.maxVotes:
                 raise HTTPException(status_code=400, detail="Max votes reached")
             return
+
+
+    def validate_max_votes(self, voting_id: str):
+        with self.db as session:
+            voting = session.get(Voting, voting_id)
+            if not voting:
+                raise HTTPException(status_code=404, detail="Voting not found")
+            count_votes = len(voting.votes)
+            if count_votes >= voting.maxVotes:
+                raise HTTPException(status_code=400, detail="Max votes reached, voting is closed")
 """
